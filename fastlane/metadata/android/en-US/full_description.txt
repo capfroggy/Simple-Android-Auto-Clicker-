@@ -1,0 +1,19 @@
+Simple Android Auto Clicker is a small, free and open-source utility for repetitive taps.
+
+It is intentionally designed to stay simple and under the user's control:
+
+• Drag one floating target to the point you want to tap.
+• Choose a click interval from 50 ms to 2000 ms.
+• Toggle the auto clicker with Volume Up:
+  • hold for 3 seconds, or
+  • double press.
+• Use the same shortcut to start and stop.
+• No root is required.
+
+Privacy is a core design goal. The app has no ads, no analytics, no tracking SDKs, no account system, no cloud sync and no Internet permission. Settings are stored only on the device.
+
+Android requires an Accessibility Service to generate taps inside other apps. Simple Android Auto Clicker uses Accessibility only to receive the selected Volume Up shortcut, show the movable target overlay and dispatch the taps configured by the user. Window content retrieval is explicitly disabled.
+
+On some Android versions, apps installed outside an app store may show a Restricted Settings warning before Accessibility can be enabled. The app does not bypass Android security controls.
+
+The complete source code is public under the MIT License.

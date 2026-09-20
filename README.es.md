@@ -101,6 +101,12 @@ Puedes verificarlo con:
 sha256sum Simple-Android-Auto-Clicker.apk
 ```
 
+## F-Droid
+
+Este repositorio está preparado para enviarse al repositorio oficial de F-Droid, con metadata Fastlane, receta de compilación para F-Droid, textos de tienda localizados y validación del build de release. Consulta [las notas de envío a F-Droid](docs/FDROID_SUBMISSION.md).
+
+La app **todavía no aparece en el repositorio oficial de F-Droid** hasta que F-Droid complete su revisión independiente y acepte el envío.
+
 ## Compilar desde código fuente
 
 Requisitos:

@@ -1,0 +1,1 @@
+Preparación completa para F-Droid, documentación de privacidad y reducción del alcance del Servicio de Accesibilidad. Incluye icono propio y métodos configurables de activación con Volumen +.

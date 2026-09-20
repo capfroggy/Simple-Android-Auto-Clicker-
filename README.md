@@ -102,6 +102,12 @@ You can verify the file with:
 sha256sum Simple-Android-Auto-Clicker.apk
 ```
 
+## F-Droid
+
+This repository is prepared for submission to the official F-Droid repository with Fastlane metadata, an F-Droid build recipe, localized store text and release-build validation. See [F-Droid submission notes](docs/FDROID_SUBMISSION.md).
+
+The app is **not yet listed in the official F-Droid repository** until F-Droid completes its independent review and merges the submission.
+
 ## Build from source
 
 Requirements:

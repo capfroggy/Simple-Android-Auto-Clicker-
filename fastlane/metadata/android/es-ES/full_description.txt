@@ -1,0 +1,19 @@
+Simple Android Auto Clicker es una utilidad pequeña, gratuita y de código abierto para automatizar pulsaciones repetitivas.
+
+Está diseñada deliberadamente para ser sencilla y permanecer bajo el control del usuario:
+
+• Arrastra un único posicionador flotante al punto donde quieres hacer clic.
+• Elige un intervalo entre 50 ms y 2000 ms.
+• Activa o desactiva el autoclicker con Volumen +:
+  • manteniéndolo presionado durante 3 segundos, o
+  • haciendo doble pulsación.
+• El mismo atajo sirve para iniciar y detener.
+• No requiere root.
+
+La privacidad es parte central del diseño. La app no tiene anuncios, analytics, SDKs de rastreo, cuentas, sincronización en nube ni permiso de Internet. La configuración se guarda únicamente en el dispositivo.
+
+Android requiere un Servicio de Accesibilidad para generar pulsaciones dentro de otras apps. Simple Android Auto Clicker utiliza Accesibilidad únicamente para detectar el atajo seleccionado con Volumen +, mostrar el posicionador flotante y ejecutar las pulsaciones configuradas por el usuario. La lectura del contenido de las ventanas está deshabilitada explícitamente.
+
+En algunas versiones de Android, las apps instaladas fuera de una tienda pueden mostrar una advertencia de Configuración restringida antes de permitir Accesibilidad. La app no intenta eludir los controles de seguridad de Android.
+
+Todo el código fuente es público bajo licencia MIT.

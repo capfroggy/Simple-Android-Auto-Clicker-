@@ -1,5 +1,7 @@
 # Simple Android Auto Clicker
 
+![Simple Android Auto Clicker](docs/assets/simple-android-auto-clicker-banner.webp)
+
 **Un autoclicker pequeño para Android que permanece bajo tu control.**
 
 Sin anuncios. Sin tracking. Sin cuentas. Sin permiso de Internet. Gratis y de código abierto.

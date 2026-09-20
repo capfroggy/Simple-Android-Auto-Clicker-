@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Simple Auto Clicker</string>
+    <string name="accessibility_description">Lets you control automatic taps with Volume Up and a movable on-screen target.</string>
+</resources>

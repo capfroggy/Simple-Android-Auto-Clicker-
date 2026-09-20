@@ -1,5 +1,7 @@
 # Simple Android Auto Clicker
 
+![Simple Android Auto Clicker](docs/assets/simple-android-auto-clicker-banner.webp)
+
 ![Build](https://github.com/capfroggy/Simple-Android-Auto-Clicker-/actions/workflows/build.yml/badge.svg)
 
 **A tiny Android auto clicker that stays under your control.**

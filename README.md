@@ -9,8 +9,10 @@ A small, free and open-source auto clicker for Android.
 ## Features
 
 - Drag a floating target anywhere on the screen.
-- Hold **Volume Up for 3 seconds** to start auto-clicking.
-- Double-press **Volume Up** to stop.
+- Choose how you want to toggle the auto clicker:
+  - hold **Volume Up for 3 seconds**; or
+  - **double-press Volume Up**.
+- The selected shortcut toggles clicking ON and OFF.
 - Adjustable click interval from **50 ms to 2000 ms**.
 - Works without root.
 - Uses Android's Accessibility Service only for the features required by the app.
@@ -20,7 +22,7 @@ A small, free and open-source auto clicker for Android.
 
 Download the APK from the latest GitHub Actions build artifact.
 
-Because the app is not distributed through Google Play, Android may ask you to allow installation from your browser or file manager.
+Because the app is installed from an APK, Android may ask you to allow installation from your browser or file manager. On Android 13+, Accessibility can also be blocked by **Restricted settings**. Open **App info → ⋮ → Allow restricted settings**, then enable the service under Accessibility.
 
 ## Setup
 
@@ -29,8 +31,20 @@ Because the app is not distributed through Google Play, Android may ask you to a
 3. Enable **Simple Auto Clicker**.
 4. Return to the app and set the click speed.
 5. Drag the floating target to the point you want to tap.
-6. Hold **Volume Up** for 3 seconds to start.
-7. Double-press **Volume Up** to stop.
+6. Choose your preferred activation shortcut.
+7. Use that same shortcut to toggle clicking ON and OFF.
+
+## Android 13+ restricted settings
+
+If **Simple Auto Clicker** appears disabled in Accessibility or Android says access was denied:
+
+1. Open **Settings → Apps → Simple Auto Clicker**.
+2. Tap the **⋮** menu in the top-right corner.
+3. Choose **Allow restricted settings**.
+4. Authenticate with your PIN, fingerprint, or screen lock if Android asks.
+5. Return to **Settings → Accessibility → Downloaded apps → Simple Auto Clicker** and enable it.
+
+This is an Android security protection for apps installed from APK files; it is not an extra permission requested by the app.
 
 ## Accessibility permission
 

@@ -1,0 +1,1 @@
+Se fijó Gradle 8.9 con su checksum SHA-256 oficial para hacer determinista la compilación de F-Droid. No se agregaron nuevos permisos ni acceso a Internet.

@@ -1,0 +1,1 @@
+Pinned Gradle 8.9 with its official SHA-256 checksum to make the F-Droid build environment deterministic. No new permissions or network access were added.

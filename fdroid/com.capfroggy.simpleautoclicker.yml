@@ -11,13 +11,13 @@ RepoType: git
 Repo: https://github.com/capfroggy/Simple-Android-Auto-Clicker-.git
 
 Builds:
-  - versionName: 1.2.0
-    versionCode: 4
-    commit: v1.2.0
+  - versionName: 1.2.1
+    versionCode: 5
+    commit: d3477a71af4c602cfaf5d41e90c8d6b24ede0faa
     gradle:
       - yes
 
 AutoUpdateMode: Version v%v
 UpdateCheckMode: Tags
-CurrentVersion: 1.2.0
-CurrentVersionCode: 4
+CurrentVersion: 1.2.1
+CurrentVersionCode: 5

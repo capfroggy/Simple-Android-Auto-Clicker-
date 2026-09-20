@@ -28,6 +28,10 @@ public class AutoClickAccessibilityService extends AccessibilityService {
     public static final String KEY_TARGET_X = "target_x";
     public static final String KEY_TARGET_Y = "target_y";
     public static final String KEY_TARGET_VISIBLE = "target_visible";
+    public static final String KEY_TRIGGER_MODE = "trigger_mode";
+
+    public static final String MODE_LONG_PRESS = "long_press";
+    public static final String MODE_DOUBLE_PRESS = "double_press";
 
     private final Handler handler = new Handler(Looper.getMainLooper());
     private final Handler keyHandler = new Handler(Looper.getMainLooper());
@@ -42,6 +46,7 @@ public class AutoClickAccessibilityService extends AccessibilityService {
     private long intervalMs = 100L;
     private boolean autoClicking = false;
     private boolean targetVisible = true;
+    private String triggerMode = MODE_LONG_PRESS;
 
     private boolean volumeDown = false;
     private boolean longPressTriggered = false;
@@ -49,9 +54,9 @@ public class AutoClickAccessibilityService extends AccessibilityService {
     private long lastShortRelease = 0L;
 
     private final Runnable longPressRunnable = () -> {
-        if (volumeDown && !autoClicking) {
+        if (volumeDown && MODE_LONG_PRESS.equals(triggerMode)) {
             longPressTriggered = true;
-            startAutoClicker();
+            toggleAutoClicker();
         }
     };
 
@@ -76,6 +81,7 @@ public class AutoClickAccessibilityService extends AccessibilityService {
         SharedPreferences prefs = getSharedPreferences(PREFS, MODE_PRIVATE);
         intervalMs = prefs.getLong(KEY_INTERVAL, 100L);
         targetVisible = prefs.getBoolean(KEY_TARGET_VISIBLE, true);
+        triggerMode = prefs.getString(KEY_TRIGGER_MODE, MODE_LONG_PRESS);
 
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         targetSizePx = dp(72);
@@ -153,6 +159,27 @@ public class AutoClickAccessibilityService extends AccessibilityService {
                 .apply();
     }
 
+    public void setTriggerMode(String mode) {
+        if (!MODE_DOUBLE_PRESS.equals(mode)) {
+            mode = MODE_LONG_PRESS;
+        }
+
+        triggerMode = mode;
+        volumeDown = false;
+        longPressTriggered = false;
+        lastShortRelease = 0L;
+        keyHandler.removeCallbacks(longPressRunnable);
+
+        getSharedPreferences(PREFS, MODE_PRIVATE)
+                .edit()
+                .putString(KEY_TRIGGER_MODE, triggerMode)
+                .apply();
+    }
+
+    public String getTriggerMode() {
+        return triggerMode;
+    }
+
     public boolean isAutoClicking() {
         return autoClicking;
     }
@@ -172,13 +199,25 @@ public class AutoClickAccessibilityService extends AccessibilityService {
         }
     }
 
+    public void toggleAutoClicker() {
+        if (autoClicking) {
+            stopAutoClicker();
+        } else {
+            startAutoClicker();
+        }
+    }
+
     public void startAutoClicker() {
         if (autoClicking) return;
+
         autoClicking = true;
-        longPressTriggered = true;
         lastShortRelease = 0L;
         makeTargetTouchable(false);
-        if (targetView != null) targetView.setActive(true);
+
+        if (targetView != null) {
+            targetView.setActive(true);
+        }
+
         vibrate(80);
         handler.removeCallbacks(clickRunnable);
         handler.post(clickRunnable);
@@ -186,10 +225,15 @@ public class AutoClickAccessibilityService extends AccessibilityService {
 
     public void stopAutoClicker() {
         if (!autoClicking) return;
+
         autoClicking = false;
         handler.removeCallbacks(clickRunnable);
         makeTargetTouchable(true);
-        if (targetView != null) targetView.setActive(false);
+
+        if (targetView != null) {
+            targetView.setActive(false);
+        }
+
         vibrate(40);
     }
 
@@ -236,8 +280,11 @@ public class AutoClickAccessibilityService extends AccessibilityService {
                 volumeDown = true;
                 volumeDownAt = SystemClock.elapsedRealtime();
                 longPressTriggered = false;
-                keyHandler.removeCallbacks(longPressRunnable);
-                keyHandler.postDelayed(longPressRunnable, 3000L);
+
+                if (MODE_LONG_PRESS.equals(triggerMode)) {
+                    keyHandler.removeCallbacks(longPressRunnable);
+                    keyHandler.postDelayed(longPressRunnable, 3000L);
+                }
             }
             return true;
         }
@@ -247,12 +294,12 @@ public class AutoClickAccessibilityService extends AccessibilityService {
             volumeDown = false;
             keyHandler.removeCallbacks(longPressRunnable);
 
-            if (autoClicking && !longPressTriggered && heldMs < 1000L) {
+            if (MODE_DOUBLE_PRESS.equals(triggerMode) && heldMs < 1000L) {
                 long now = SystemClock.elapsedRealtime();
 
                 if (lastShortRelease != 0L && now - lastShortRelease <= 500L) {
                     lastShortRelease = 0L;
-                    stopAutoClicker();
+                    toggleAutoClicker();
                 } else {
                     lastShortRelease = now;
                 }

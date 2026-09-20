@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">Simple Auto Clicker</string>
-    <string name="accessibility_description">Lets you control automatic taps with Volume Up and a movable on-screen target.</string>
+    <string name="accessibility_description">Used only to detect the selected Volume Up shortcut and perform user-configured taps. This app does not read screen content or collect personal data.</string>
 </resources>

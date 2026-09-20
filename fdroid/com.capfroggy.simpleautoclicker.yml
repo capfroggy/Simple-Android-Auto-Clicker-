@@ -1,0 +1,23 @@
+Categories:
+  - System
+License: MIT
+AuthorName: capfroggy
+SourceCode: https://github.com/capfroggy/Simple-Android-Auto-Clicker-
+IssueTracker: https://github.com/capfroggy/Simple-Android-Auto-Clicker-/issues
+
+AutoName: Simple Android Auto Clicker
+
+RepoType: git
+Repo: https://github.com/capfroggy/Simple-Android-Auto-Clicker-.git
+
+Builds:
+  - versionName: 1.2.0
+    versionCode: 4
+    commit: v1.2.0
+    gradle:
+      - yes
+
+AutoUpdateMode: Version v%v
+UpdateCheckMode: Tags
+CurrentVersion: 1.2.0
+CurrentVersionCode: 4

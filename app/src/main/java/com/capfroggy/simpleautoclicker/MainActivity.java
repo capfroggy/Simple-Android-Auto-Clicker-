@@ -1,10 +1,13 @@
 package com.capfroggy.simpleautoclicker;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
@@ -13,6 +16,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -22,6 +28,7 @@ public class MainActivity extends Activity {
     private TextView serviceStatus;
     private TextView speedLabel;
     private TextView stateLabel;
+    private TextView shortcutHint;
     private Button targetButton;
     private SharedPreferences prefs;
 
@@ -30,34 +37,123 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         prefs = getSharedPreferences(AutoClickAccessibilityService.PREFS, MODE_PRIVATE);
         setContentView(buildUi());
+
+        if (!prefs.getBoolean("intro_shown", false)) {
+            showFirstRunDialog();
+            prefs.edit().putBoolean("intro_shown", true).apply();
+        }
     }
 
     private View buildUi() {
         int pad = dp(20);
 
+        ScrollView scroll = new ScrollView(this);
+        scroll.setFillViewport(true);
+        scroll.setBackgroundColor(Color.rgb(17, 19, 24));
+
         LinearLayout root = new LinearLayout(this);
         root.setOrientation(LinearLayout.VERTICAL);
-        root.setPadding(pad, dp(24), pad, pad);
+        root.setPadding(pad, dp(24), pad, dp(32));
         root.setBackgroundColor(Color.rgb(17, 19, 24));
+        scroll.addView(root);
 
         TextView title = text("SIMPLE AUTO CLICKER", 26, Color.WHITE, true);
         root.addView(title, lpMatchWrap(0));
 
-        TextView subtitle = text("Free, local and ad-free", 15, 0xFFB7BEC9, false);
+        TextView subtitle = text("Free • Open source • No ads • No tracking", 15, 0xFFB7BEC9, false);
         LinearLayout.LayoutParams subLp = lpMatchWrap(dp(4));
-        subLp.bottomMargin = dp(24);
+        subLp.bottomMargin = dp(20);
         root.addView(subtitle, subLp);
 
-        serviceStatus = text("Service: checking…", 16, Color.WHITE, true);
-        root.addView(serviceStatus, lpMatchWrap(dp(6)));
+        TextView trust = text(
+                "Runs entirely on your phone. No Internet permission, no account, no analytics and no remote control.",
+                14,
+                0xFF9FE3B0,
+                false
+        );
+        LinearLayout.LayoutParams trustLp = lpMatchWrap(0);
+        trustLp.bottomMargin = dp(22);
+        root.addView(trust, trustLp);
 
-        Button accessibilityButton = button("Open accessibility settings");
+        serviceStatus = text("Service: checking…", 16, Color.WHITE, true);
+        root.addView(serviceStatus, lpMatchWrap(0));
+
+        Button appInfoButton = button("1. Open app info");
+        appInfoButton.setOnClickListener(v -> openAppInfo());
+        root.addView(appInfoButton, lpMatchWrap(dp(10)));
+
+        TextView restrictedHelp = text(
+                "If Android says “restricted settings”, open App info, tap the ⋮ menu and choose “Allow restricted settings”.",
+                13,
+                0xFFFFD59A,
+                false
+        );
+        LinearLayout.LayoutParams restrictedLp = lpMatchWrap(dp(8));
+        restrictedLp.bottomMargin = dp(10);
+        root.addView(restrictedHelp, restrictedLp);
+
+        Button accessibilityButton = button("2. Open accessibility settings");
         accessibilityButton.setOnClickListener(
                 v -> startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
         );
-        LinearLayout.LayoutParams buttonLp = lpMatchWrap(dp(8));
-        buttonLp.bottomMargin = dp(28);
-        root.addView(accessibilityButton, buttonLp);
+        LinearLayout.LayoutParams accessLp = lpMatchWrap(0);
+        accessLp.bottomMargin = dp(26);
+        root.addView(accessibilityButton, accessLp);
+
+        root.addView(text("Activation shortcut", 18, Color.WHITE, true), lpMatchWrap(0));
+
+        RadioGroup group = new RadioGroup(this);
+        group.setOrientation(RadioGroup.VERTICAL);
+
+        RadioButton longPress = new RadioButton(this);
+        longPress.setText("Hold Volume Up for 3 seconds");
+        longPress.setTextColor(Color.WHITE);
+        longPress.setTextSize(15);
+
+        RadioButton doublePress = new RadioButton(this);
+        doublePress.setText("Double-press Volume Up");
+        doublePress.setTextColor(Color.WHITE);
+        doublePress.setTextSize(15);
+
+        group.addView(longPress);
+        group.addView(doublePress);
+
+        String savedMode = prefs.getString(
+                AutoClickAccessibilityService.KEY_TRIGGER_MODE,
+                AutoClickAccessibilityService.MODE_LONG_PRESS
+        );
+
+        if (AutoClickAccessibilityService.MODE_DOUBLE_PRESS.equals(savedMode)) {
+            doublePress.setChecked(true);
+        } else {
+            longPress.setChecked(true);
+        }
+
+        group.setOnCheckedChangeListener((radioGroup, checkedId) -> {
+            String mode = (checkedId == doublePress.getId())
+                    ? AutoClickAccessibilityService.MODE_DOUBLE_PRESS
+                    : AutoClickAccessibilityService.MODE_LONG_PRESS;
+
+            prefs.edit()
+                    .putString(AutoClickAccessibilityService.KEY_TRIGGER_MODE, mode)
+                    .apply();
+
+            if (AutoClickAccessibilityService.instance != null) {
+                AutoClickAccessibilityService.instance.setTriggerMode(mode);
+            }
+
+            updateShortcutHint(mode);
+        });
+
+        LinearLayout.LayoutParams groupLp = lpMatchWrap(dp(6));
+        groupLp.bottomMargin = dp(6);
+        root.addView(group, groupLp);
+
+        shortcutHint = text("", 13, 0xFFB7BEC9, false);
+        LinearLayout.LayoutParams hintLp = lpMatchWrap(0);
+        hintLp.bottomMargin = dp(24);
+        root.addView(shortcutHint, hintLp);
+        updateShortcutHint(savedMode);
 
         root.addView(text("Click speed", 18, Color.WHITE, true), lpMatchWrap(0));
 
@@ -75,6 +171,7 @@ public class MainActivity extends Activity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 long interval = progress + 50L;
                 updateSpeedLabel(interval);
+
                 prefs.edit()
                         .putLong(AutoClickAccessibilityService.KEY_INTERVAL, interval)
                         .apply();
@@ -89,9 +186,8 @@ public class MainActivity extends Activity {
         });
 
         LinearLayout.LayoutParams seekLp = lpMatchWrap(dp(2));
-        seekLp.bottomMargin = dp(24);
+        seekLp.bottomMargin = dp(22);
         root.addView(speedBar, seekLp);
-
         updateSpeedLabel(savedInterval);
 
         targetButton = button("Show / hide target");
@@ -114,7 +210,7 @@ public class MainActivity extends Activity {
         });
 
         LinearLayout.LayoutParams targetLp = lpMatchWrap(0);
-        targetLp.bottomMargin = dp(14);
+        targetLp.bottomMargin = dp(12);
         root.addView(targetButton, targetLp);
 
         Button stopButton = button("Stop now");
@@ -126,37 +222,55 @@ public class MainActivity extends Activity {
         });
 
         LinearLayout.LayoutParams stopLp = lpMatchWrap(0);
-        stopLp.bottomMargin = dp(28);
+        stopLp.bottomMargin = dp(22);
         root.addView(stopButton, stopLp);
 
-        root.addView(text("Controls", 18, Color.WHITE, true), lpMatchWrap(0));
+        root.addView(text("How it works", 18, Color.WHITE, true), lpMatchWrap(0));
 
         TextView controls = text(
-                "Hold Volume Up for 3 seconds to start.\n\n" +
-                "While active, double-press Volume Up to stop.\n\n" +
-                "Drag the floating target to the exact point before starting.",
+                "1. Enable the accessibility service once.\n\n" +
+                "2. Drag the floating target to the point you want to tap.\n\n" +
+                "3. Use your selected Volume Up shortcut to start or stop.\n\n" +
+                "The same shortcut toggles the auto clicker ON and OFF.",
                 15,
                 0xFFD7DBE2,
                 false
         );
 
         LinearLayout.LayoutParams controlsLp = lpMatchWrap(dp(6));
-        controlsLp.bottomMargin = dp(24);
+        controlsLp.bottomMargin = dp(20);
         root.addView(controls, controlsLp);
 
         stateLabel = text("State: stopped", 16, 0xFFB7BEC9, true);
         root.addView(stateLabel, lpMatchWrap(0));
 
-        TextView note = text(
-                "While the accessibility service is enabled, Volume Up is reserved for the auto clicker shortcut.",
+        TextView sourceNote = text(
+                "Everything is local and open source. You can inspect the complete source code on GitHub before installing.",
                 13,
                 0xFF8F98A6,
                 false
         );
+        root.addView(sourceNote, lpMatchWrap(dp(16)));
 
-        root.addView(note, lpMatchWrap(dp(16)));
+        return scroll;
+    }
 
-        return root;
+    private void showFirstRunDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Why Accessibility is needed")
+                .setMessage(
+                        "Simple Auto Clicker uses Android Accessibility only to detect the Volume Up shortcut, show the movable target, and generate taps.\n\n" +
+                        "It has no Internet permission, no ads, no analytics, no account system and no remote access.\n\n" +
+                        "On Android 13+, apps installed from an APK may require you to allow “restricted settings” from the app info screen first."
+                )
+                .setPositiveButton("Got it", null)
+                .show();
+    }
+
+    private void openAppInfo() {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.setData(Uri.parse("package:" + getPackageName()));
+        startActivity(intent);
     }
 
     @Override
@@ -187,6 +301,16 @@ public class MainActivity extends Activity {
     private void updateTargetButton(boolean visible) {
         if (targetButton != null) {
             targetButton.setText(visible ? "Hide target" : "Show target");
+        }
+    }
+
+    private void updateShortcutHint(String mode) {
+        if (shortcutHint == null) return;
+
+        if (AutoClickAccessibilityService.MODE_DOUBLE_PRESS.equals(mode)) {
+            shortcutHint.setText("Double-press Volume Up to toggle the auto clicker ON or OFF.");
+        } else {
+            shortcutHint.setText("Hold Volume Up for 3 seconds to toggle the auto clicker ON or OFF.");
         }
     }
 

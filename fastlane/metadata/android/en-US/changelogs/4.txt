@@ -1,0 +1,1 @@
+Added F-Droid-ready metadata and privacy documentation, minimized Accessibility scope, and improved public distribution setup. Includes the branded launcher icon and configurable Volume Up activation modes.

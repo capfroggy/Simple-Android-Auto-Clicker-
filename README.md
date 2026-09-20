@@ -1,5 +1,7 @@
 # Simple Android Auto Clicker
 
+![Build](https://github.com/capfroggy/Simple-Android-Auto-Clicker-/actions/workflows/build.yml/badge.svg)
+
 A small, free and open-source auto clicker for Android.
 
 **No ads. No tracking. No accounts. No unnecessary features.**

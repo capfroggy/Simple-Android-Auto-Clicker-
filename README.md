@@ -2,59 +2,103 @@
 
 ![Build](https://github.com/capfroggy/Simple-Android-Auto-Clicker-/actions/workflows/build.yml/badge.svg)
 
-A small, free and open-source auto clicker for Android.
+**A tiny Android auto clicker that stays under your control.**
 
-**No ads. No tracking. No accounts. No unnecessary features.**
+No ads. No tracking. No account. No Internet permission. Free and open source.
+
+[**Download the latest APK**](https://github.com/capfroggy/Simple-Android-Auto-Clicker-/releases/latest/download/Simple-Android-Auto-Clicker.apk)
+
+[Español](README.es.md)
+
+## Why this exists
+
+Most auto clickers are overloaded with ads, trackers, subscriptions, or permissions that are hard to trust. This project intentionally does less:
+
+- one movable click target;
+- one adjustable click speed;
+- one physical-button shortcut;
+- no cloud services or remote control.
 
 ## Features
 
-- Drag a floating target anywhere on the screen.
-- Choose how you want to toggle the auto clicker:
-  - hold **Volume Up for 3 seconds**; or
-  - **double-press Volume Up**.
-- The selected shortcut toggles clicking ON and OFF.
-- Adjustable click interval from **50 ms to 2000 ms**.
+- Drag a floating target anywhere on screen.
+- Adjustable interval from **50 ms to 2000 ms**.
+- Choose one Volume Up shortcut to toggle clicking ON/OFF:
+  - **Hold for 3 seconds**
+  - **Double press**
 - Works without root.
-- Uses Android's Accessibility Service only for the features required by the app.
-- Stores configuration locally on the device.
+- Settings stay on the device.
+
+## Privacy by design
+
+| Capability | Included? |
+|---|---|
+| Ads | No |
+| Analytics / telemetry | No |
+| Tracking SDKs | No |
+| Account | No |
+| Internet permission | No |
+| Remote control | No |
+| Cloud sync | No |
+| Local settings | Yes |
+| Accessibility Service | Yes — only for shortcuts, overlay and taps |
+
+See [PRIVACY.md](PRIVACY.md) for the full explanation.
 
 ## Install
 
-Download the APK from the latest GitHub Actions build artifact.
+1. Open the [latest release](https://github.com/capfroggy/Simple-Android-Auto-Clicker-/releases/latest).
+2. Download **Simple-Android-Auto-Clicker.apk**.
+3. Install it on your Android device.
+4. Open the app and follow the two setup buttons.
 
-Because the app is installed from an APK, Android may ask you to allow installation from your browser or file manager. On Android 13+, Accessibility can also be blocked by **Restricted settings**. Open **App info → ⋮ → Allow restricted settings**, then enable the service under Accessibility.
+### Android 13+ — Restricted settings
 
-## Setup
+Android may block Accessibility for APKs installed outside an app store.
 
-1. Install and open **Simple Auto Clicker**.
-2. Tap **Open Accessibility Settings**.
-3. Enable **Simple Auto Clicker**.
-4. Return to the app and set the click speed.
-5. Drag the floating target to the point you want to tap.
-6. Choose your preferred activation shortcut.
-7. Use that same shortcut to toggle clicking ON and OFF.
-
-## Android 13+ restricted settings
-
-If **Simple Auto Clicker** appears disabled in Accessibility or Android says access was denied:
+If **Simple Auto Clicker** is greyed out:
 
 1. Open **Settings → Apps → Simple Auto Clicker**.
-2. Tap the **⋮** menu in the top-right corner.
+2. Tap **⋮** in the top-right corner.
 3. Choose **Allow restricted settings**.
-4. Authenticate with your PIN, fingerprint, or screen lock if Android asks.
-5. Return to **Settings → Accessibility → Downloaded apps → Simple Auto Clicker** and enable it.
+4. Authenticate if Android asks.
+5. Return to **Settings → Accessibility → Downloaded apps → Simple Auto Clicker**.
+6. Enable the service.
 
-This is an Android security protection for apps installed from APK files; it is not an extra permission requested by the app.
+This is an Android security measure. The app does not bypass it.
 
-## Accessibility permission
+## How to use
 
-Android does not allow ordinary apps to generate taps inside other apps. Simple Auto Clicker uses an Accessibility Service only to:
+1. Enable the Accessibility Service.
+2. Drag the floating target to the point you want to tap.
+3. Choose your shortcut:
+   - hold **Volume Up** for 3 seconds, or
+   - double-press **Volume Up**.
+4. Use that shortcut to toggle auto-clicking ON.
+5. Use the same shortcut again to stop.
 
-- receive the Volume Up shortcut;
+## Why Accessibility is required
+
+Android does not allow ordinary apps to create taps inside other apps. The Accessibility Service is used only to:
+
+- detect the selected Volume Up shortcut;
 - display the movable target overlay;
-- dispatch the configured tap gesture.
+- dispatch taps at the selected position.
 
-The app has no networking permission and does not collect or transmit screen contents, passwords, messages, or personal information.
+The app does **not** request Internet access and does not transmit screen contents or personal information.
+
+## Verify the APK
+
+Each release includes:
+
+- `Simple-Android-Auto-Clicker.apk`
+- `Simple-Android-Auto-Clicker.apk.sha256`
+
+You can verify the file with:
+
+```bash
+sha256sum Simple-Android-Auto-Clicker.apk
+```
 
 ## Build from source
 
@@ -64,29 +108,22 @@ Requirements:
 - Android SDK 35
 - Gradle 8.9
 
-Build with:
-
 ```bash
 gradle assembleDebug
 ```
 
-The APK is generated at:
+Output:
 
 ```
 app/build/outputs/apk/debug/app-debug.apk
 ```
 
-## Privacy
+## Contributing
 
-Simple Auto Clicker:
+Bug reports, small improvements and focused pull requests are welcome. Please keep the project aligned with its core principle: **simple, local, transparent and ad-free**.
 
-- has no ads;
-- has no analytics;
-- has no tracking SDKs;
-- has no account system;
-- makes no network requests;
-- stores settings only on the local device.
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
-MIT License. See [LICENSE](LICENSE).
+MIT — see [LICENSE](LICENSE).

@@ -35,7 +35,9 @@ inside a fork of https://gitlab.com/fdroid/fdroiddata.
 
 The application has no external runtime libraries and does not request the Android INTERNET permission.
 
-F-Droid can build version 1.2.0 with:
+Gradle 8.9 is pinned in `gradle/wrapper/gradle-wrapper.properties` together with the official binary-distribution SHA-256 checksum. F-Droid's Gradle wrapper tooling can use this file to select the intended Gradle version.
+
+F-Droid can build version 1.2.1 with:
 
 `gradle assembleRelease`
 

@@ -1,0 +1,1 @@
+Se habilitaron compilaciones release firmadas y minimizadas, junto con soporte para compilaciones reproducibles de F-Droid. No se agregaron permisos ni acceso a Internet.

@@ -1,0 +1,1 @@
+Enabled minified, release-signed builds and reproducible-build support for F-Droid. No new permissions or network access were added.

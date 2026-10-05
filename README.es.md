@@ -1,6 +1,6 @@
-# Simple Android Auto Clicker
+# Simple Auto Clicker
 
-![Simple Android Auto Clicker](docs/assets/simple-android-auto-clicker-banner.webp)
+![Simple Auto Clicker](fastlane/metadata/android/en-US/images/icon.png)
 
 **Un autoclicker pequeño para Android que permanece bajo tu control.**
 
@@ -134,3 +134,5 @@ Consulta [CONTRIBUTING.md](CONTRIBUTING.md).
 ## Licencia
 
 MIT — consulta [LICENSE](LICENSE).
+
+Mientras el servicio de accesibilidad esté habilitado, Volumen + queda reservado para el atajo seleccionado, incluso cuando las pulsaciones están detenidas. No aumentará el volumen del dispositivo. Desactiva Simple Auto Clicker en los ajustes de Accesibilidad para recuperar el funcionamiento normal de Volumen +.

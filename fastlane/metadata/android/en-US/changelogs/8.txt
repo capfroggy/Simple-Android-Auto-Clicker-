@@ -1,0 +1,1 @@
+Fix store naming and icon, document Volume Up behavior while accessibility is enabled, and stop requesting unused accessibility events.

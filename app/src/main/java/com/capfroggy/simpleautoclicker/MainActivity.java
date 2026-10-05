@@ -231,7 +231,10 @@ public class MainActivity extends Activity {
                 "1. Enable the accessibility service once.\n\n" +
                 "2. Drag the floating target to the point you want to tap.\n\n" +
                 "3. Use your selected Volume Up shortcut to start or stop.\n\n" +
-                "The same shortcut toggles the auto clicker ON and OFF.",
+                "The same shortcut toggles the auto clicker ON and OFF.\n\n" +
+                "While the accessibility service is enabled, Volume Up is reserved for this shortcut, " +
+                "even when clicking is stopped, and will not raise the volume. " +
+                "Disable the service in Accessibility settings to restore normal Volume Up behavior.",
                 15,
                 0xFFD7DBE2,
                 false

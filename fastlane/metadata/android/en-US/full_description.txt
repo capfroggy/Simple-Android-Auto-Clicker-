@@ -1,4 +1,4 @@
-Simple Android Auto Clicker is a small, free and open-source utility for repetitive taps.
+Simple Auto Clicker is a small, free and open-source utility for repetitive taps.
 
 It is intentionally designed to stay simple and under the user's control:
 
@@ -12,8 +12,10 @@ It is intentionally designed to stay simple and under the user's control:
 
 Privacy is a core design goal. The app has no ads, no analytics, no tracking SDKs, no account system, no cloud sync and no Internet permission. Settings are stored only on the device.
 
-Android requires an Accessibility Service to generate taps inside other apps. Simple Android Auto Clicker uses Accessibility only to receive the selected Volume Up shortcut, show the movable target overlay and dispatch the taps configured by the user. Window content retrieval is explicitly disabled.
+Android requires an Accessibility Service to generate taps inside other apps. Simple Auto Clicker uses Accessibility only to receive the selected Volume Up shortcut, show the movable target overlay and dispatch the taps configured by the user. Window content retrieval is explicitly disabled.
 
 On some Android versions, apps installed outside an app store may show a Restricted Settings warning before Accessibility can be enabled. The app does not bypass Android security controls.
 
 The complete source code is public under the MIT License.
+
+While the accessibility service is enabled, Volume Up is reserved for the selected shortcut, even when clicking is stopped. It will not raise the device volume. Disable Simple Auto Clicker in Accessibility settings to restore normal Volume Up behavior.

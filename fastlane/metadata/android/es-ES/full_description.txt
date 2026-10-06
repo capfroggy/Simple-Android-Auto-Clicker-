@@ -1,4 +1,4 @@
-Simple Android Auto Clicker es una utilidad pequeña, gratuita y de código abierto para automatizar pulsaciones repetitivas.
+Simple Auto Clicker es una utilidad pequeña, gratuita y de código abierto para automatizar pulsaciones repetitivas.
 
 Está diseñada deliberadamente para ser sencilla y permanecer bajo el control del usuario:
 
@@ -12,8 +12,10 @@ Está diseñada deliberadamente para ser sencilla y permanecer bajo el control d
 
 La privacidad es parte central del diseño. La app no tiene anuncios, analytics, SDKs de rastreo, cuentas, sincronización en nube ni permiso de Internet. La configuración se guarda únicamente en el dispositivo.
 
-Android requiere un Servicio de Accesibilidad para generar pulsaciones dentro de otras apps. Simple Android Auto Clicker utiliza Accesibilidad únicamente para detectar el atajo seleccionado con Volumen +, mostrar el posicionador flotante y ejecutar las pulsaciones configuradas por el usuario. La lectura del contenido de las ventanas está deshabilitada explícitamente.
+Android requiere un Servicio de Accesibilidad para generar pulsaciones dentro de otras apps. Simple Auto Clicker utiliza Accesibilidad únicamente para detectar el atajo seleccionado con Volumen +, mostrar el posicionador flotante y ejecutar las pulsaciones configuradas por el usuario. La lectura del contenido de las ventanas está deshabilitada explícitamente.
 
 En algunas versiones de Android, las apps instaladas fuera de una tienda pueden mostrar una advertencia de Configuración restringida antes de permitir Accesibilidad. La app no intenta eludir los controles de seguridad de Android.
 
 Todo el código fuente es público bajo licencia MIT.
+
+Mientras el servicio de accesibilidad esté habilitado, Volumen + queda reservado para el atajo seleccionado, incluso cuando las pulsaciones están detenidas. No aumentará el volumen del dispositivo. Desactiva Simple Auto Clicker en los ajustes de Accesibilidad para recuperar el funcionamiento normal de Volumen +.

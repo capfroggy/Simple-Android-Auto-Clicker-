@@ -1,6 +1,6 @@
-# Simple Android Auto Clicker
+# Simple Auto Clicker
 
-![Simple Android Auto Clicker](docs/assets/simple-android-auto-clicker-banner.webp)
+![Simple Auto Clicker](fastlane/metadata/android/en-US/images/icon.png)
 
 ![Build](https://github.com/capfroggy/Simple-Android-Auto-Clicker-/actions/workflows/build.yml/badge.svg)
 
@@ -135,3 +135,5 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 ## License
 
 MIT — see [LICENSE](LICENSE).
+
+While the accessibility service is enabled, Volume Up is reserved for the selected shortcut, even when clicking is stopped. It will not raise the device volume. Disable Simple Auto Clicker in Accessibility settings to restore normal Volume Up behavior.

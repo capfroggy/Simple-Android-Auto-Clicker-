@@ -1,0 +1,1 @@
+Corrige el nombre e icono de la ficha, documenta Volumen + con accesibilidad habilitada y elimina la solicitud de eventos de accesibilidad no utilizados.
